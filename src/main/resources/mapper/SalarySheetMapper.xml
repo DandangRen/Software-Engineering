@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.SalarySheetDao">
+
+
+<!--  需要新建数据表  salarySheet  -->
+
+
+    <insert id="create_salary_sheet" parameterType="com.nju.edu.erp.model.po.SalarySheetPO">
+        insert into salarySheet (sheet_number ,state ,id ,name , role ,account_number ,should_pay ,tax ,actual_pay)
+        values (#{sheet_number} ,#{state} ,#{id} ,#{name} ,#{role},#{account_number} ,#{should_pay} ,#{tax} ,#{actual_pay});
+    </insert>
+
+    <delete id="delete_by_id">
+        delete from salarySheet where id = #{id}
+    </delete>
+
+    <update id="updateSalary" parameterType="com.nju.edu.erp.model.po.SalarySheetPO">
+        update salarySheet
+        <set>
+            <if test="name != null">`name` = #{name}, </if>
+            <if test="id != null">`id` = #{id}, </if>
+            <if test="state != null">`state` = #{state}, </if>
+            <if test="account_number != null">`account_number` = #{account_number}, </if>
+            <if test = "should_pay != null">`should_pay` = #{should_pay}, </if>
+            <if test="tax != null">`tax` = #{tax}, </if>
+            <if test = "actual_pay != null">`actual_pay` = #{actual_pay}, </if>
+        </set>
+        where sheet_number = #{sheet_number}
+    </update>
+
+    <select id="findAll" resultType="com.nju.edu.erp.model.po.SalarySheetPO" resultMap="SalarySheetPO">
+        select * from salarySheet
+    </select>
+
+    <select id="findAllByState" resultMap="SalarySheetPO">
+        select * from salarySheet where state = #{state}
+    </select>
+
+
+    <select id="findOneById" resultMap="SalarySheetPO">
+        select * from salarySheet
+        where sheet_number = #{sheet_number}
+    </select>
+
+
+    <update id="updateState">
+        update salarySheet
+        set state = #{state}
+        where sheet_number = #{sheet_number}
+    </update>
+
+    <update id="updateStateV2">
+        update salarySheet
+        set state = #{state}
+        where sheet_number = #{sheet_number} and state = #{prevState}
+    </update>
+
+    <resultMap id="SalarySheetPO" type="com.nju.edu.erp.model.po.SalarySheetPO">
+        <id column="sheet_number" property="sheet_number"></id>
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+        <result column="account_number" property="account_number"></result>
+        <result column="should_pay" property="should_pay"></result>
+        <result column="tax" property="tax"></result>
+        <result column="actual_pay" property="actual_pay"></result>
+    </resultMap>
+
+    <resultMap id="StaffManagePO" type="com.nju.edu.erp.model.po.StaffManagePO">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="gender" property="gender"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="phone_number" property="phone_number"></result>
+        <result column="role" property="role"></result>
+        <result column="basic_salary" property="basic_salary"></result>
+        <result column="post_salary" property="post_salary"></result>
+        <result column="post_level" property="post_level"></result>
+        <result column="salary_count_way" property="salary_count_way"></result>
+        <result column="salary_count_way" property="salary_count_way"></result>
+        <result column="salary_method" property="salary_method"></result>
+        <result column="bank_account" property="bank_account"></result>
+    </resultMap>
+
+
+    <!--计算工资用-->
+    <select id="findSalaryById" resultMap="StaffManagePO">
+        select * from staff
+        where id = #{id}
+    </select>
+    <!--        -->
+</mapper>

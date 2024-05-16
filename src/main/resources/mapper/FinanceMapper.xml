@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.FinanceDao">
+    <select id="getSalesDetails" resultType="com.nju.edu.erp.model.po.SalesDetailsPO"  parameterType="SalesDetailsConditionPO" resultMap="SalesDetailsPO">
+        select s.create_time as create_time, p.name as name,p.type as type,sc.quantity as quantity, sc.unit_price as unit_price, sc.total_price as total_price
+        from sale_sheet s,sale_sheet_content sc, product p
+        where s.create_time >=#{beginDate} and s.create_time&lt;=#{endDate} and p.name = #{name} and s.supplier=#{supplier} and s.operator = #{operator} and sc.sale_sheet_id=s.id and sc.pid=p.id
+    </select>
+
+    <select id="getXSD" resultType="com.nju.edu.erp.model.po.SaleSheetPO" parameterType="BusinessCalendarPO" >
+        select * from sale_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate} and supplier=#{supplier} and operator=#{operator}
+    </select>
+
+    <select id="getXSTHD" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO" parameterType="BusinessCalendarPO" >
+        select * from sale_returns_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate}  and operator=#{operator}
+    </select>
+
+    <select id="getJHD" resultType="com.nju.edu.erp.model.po.PurchaseSheetPO" parameterType="BusinessCalendarPO" >
+        select * from purchase_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate} and supplier=#{supplier} and operator=#{operator}
+    </select>
+
+    <select id="getJHTHD" resultType="com.nju.edu.erp.model.po.PurchaseReturnsSheetPO" parameterType="BusinessCalendarPO" >
+        select * from purchase_returns_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate} and operator=#{operator}
+    </select>
+
+    <select id="getFKD" resultType="com.nju.edu.erp.model.po.PayableSheetPO" parameterType="BusinessCalendarPO">
+        select * from payable_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate} and customer=#{supplier} and operator=#{operator}
+    </select>
+
+    <select id="getSKD" resultType="com.nju.edu.erp.model.po.ReceivableSheetPO" parameterType="BusinessCalendarPO" >
+        select * from receivable_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate} and customer=#{supplier} and operator=#{operator}
+    </select>
+
+    <select id="getSaleSheetByDate" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+        select * from sale_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate}
+    </select>
+
+    <select id="getSaleReturnsSheetByDate" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
+        select * from sale_returns_sheet where create_time >=#{beginDate} and create_time&lt;=#{endDate}
+    </select>
+    <resultMap id="SalesDetailsPO" type="com.nju.edu.erp.model.po.SalesDetailsPO">
+        <result column="create_time" property="create_time"></result>
+        <result column="name" property="name"></result>
+        <result column="type" property="type"></result>
+        <result column="quantity" property="quantity"></result>
+        <result column="unit_price" property="unit_price"></result>
+        <result column="total_price" property="total_price"></result>
+
+    </resultMap>
+</mapper>

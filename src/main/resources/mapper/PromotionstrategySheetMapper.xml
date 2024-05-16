@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.PromotionstrategyDao">
+    <insert id="saveSheet">
+        insert into promotion_sheet (id,operator, remark, discount, voucher_amount,gift,promotionstrategy)
+        values (#{id},#{operator},#{remark}, #{discount}, #{voucherAmount},#{gift},#{promotionstrategy}) ;
+    </insert>
+
+    <select id="findAllSheet" resultType="com.nju.edu.erp.model.po.PromotionstrategySheetPO">
+        select * from promotion_sheet;
+    </select>
+
+    <select id="findSheetById" resultType="com.nju.edu.erp.model.po.PromotionstrategySheetPO">
+        select * from promotion_sheet where id = #{id};
+    </select>
+
+    <resultMap id="PromotionstrategySheetPO" type="com.nju.edu.erp.model.po.PromotionstrategySheetPO">
+            <id column="id" property="id"></id>
+            <result column="remark" property="remark"></result>
+            <result column="gift" property="gift"></result>
+            <result column="discount" property="discount"></result>
+            <result column="voucher_amount" property="voucherAmount"></result>
+            <result column="promotionstrategy" property="promotionstrategy"></result>
+            <result column="operator" property="operator"></result>
+    </resultMap>
+
+</mapper>
